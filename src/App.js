@@ -19,9 +19,25 @@ const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
   // ...
+  const getAll = async() => {
+    const response = await axios.get(baseUrl)
+    console.log('Getting all data...', response.data)
+    return response.data
+  }
 
-  const create = (resource) => {
+  useEffect(() => {
+    getAll().then(response => {
+      console.log(response)
+      setResources(response)})
+  },[])
+
+  const create = async (resource) => {
     // ...
+    console.log('Resource object to post: ', resource)
+    const response = await axios.post(baseUrl, resource)
+    console.log('Created: ', response.data)
+    setResources(resources.concat(resource))
+    return response.data
   }
 
   const service = {
